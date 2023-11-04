@@ -7,7 +7,7 @@ const port = 8000;
 const dbFilePath = 'words_clean.txt';
 const serverController = new ServerController(dbFilePath);
 
-app.get('/similar', (req: Request, res: Response) => {
+app.get('/api/v1/similar', (req: Request, res: Response) => {
   serverController.totalRequests++;
   const word: string = req?.query?.word as string;
   if (!word) {
@@ -25,7 +25,7 @@ app.get('/similar', (req: Request, res: Response) => {
   }
 });
 
-app.get('/stats', (req: Request, res: Response) => {
+app.get('/api/v1/stats', (req: Request, res: Response) => {
   try {
     res.json({
       totalWords: serverController.totalWords,

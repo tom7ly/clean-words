@@ -33,11 +33,11 @@
 #### GET
  This endpoint is used to find similar words. Replace `[wordInput]` with the word you want to find similar words for.
  ```
- localhost:8000/similar?word=[wordInput]
+ localhost:8000/api/v1/similar?word=[wordInput]
  ```
 ### GET
 This endpoint is used to get statistics.
-- `localhost:8000/stats`
+- `localhost:8000/api/v1/stats`
 
 
 # Solution Overview
