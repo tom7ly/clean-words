@@ -13,7 +13,7 @@ app.get('/similar', (req: Request, res: Response) => {
   if (!word) {
     res.status(400).json({ error: "Missing word query parameter" });
   }
-  
+
   try {
     const startTime = process.hrtime();
     const similar = serverController.findSimilarWords(word);
@@ -31,7 +31,6 @@ app.get('/stats', (req: Request, res: Response) => {
       totalWords: serverController.totalWords,
       totalRequests: serverController.totalRequests,
       avgProcessingTimeNs: serverController.getAverageProcessingTimeNs(),
-      requestTimes: serverController.requestTimes,
     });
   } catch (err) {
     res.status(500).json({ error: err });
