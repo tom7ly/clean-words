@@ -8,10 +8,9 @@ export class ServerController {
 
     wordCache: Map<string, string[]>;
     anagramIndex: Map<string, string[]>;
-    requestTimes: number[] = [];
     totalRequests: number = 0;
     totalWords: number;
-
+    totalTime:number = 0;
     constructor(private dbFilePath: string) {
         this.dbFilePath = dbFilePath;
         this.createAnagramIndex();
@@ -29,21 +28,21 @@ export class ServerController {
         const uniqueDataBase = [...new Set(dataBase)];
         uniqueDataBase.forEach((word) => {
             word = word.trim();
-            const signature = this.getFrequencySignature(word)      // O(n)
-            // const signature = this.getSortedWordSignature(word)  // O(n log n)
-            if (!this.anagramIndex.has(signature)) {
-                this.anagramIndex.set(signature, []);
+            const key = this.getFrequenyKey(word)      // O(n)
+            // const key = this.getSortedWordKey(word)  // O(n log n)
+            if (!this.anagramIndex.has(key)) {
+                this.anagramIndex.set(key, []);
             }
-            this.anagramIndex.get(signature)?.push(word);
+            this.anagramIndex.get(key)?.push(word);
         });
         this.totalWords = dataBase.length;
     }
 
-    getSortedWordSignature(word: string): string {
+    getSortedWordKey(word: string): string {
         return word.split('').sort().join('');
     }
 
-    getFrequencySignature(word: string): string {
+    getFrequenyKey(word: string): string {
         /**
          * this function generates a signature for a word 
          * by counting the frequency of each character
@@ -65,7 +64,7 @@ export class ServerController {
         if (this.wordCache.has(word)) {
             return this.wordCache.get(word);
         }
-        const similarWords = this.anagramIndex.get(this.getFrequencySignature(word)) || [];
+        const similarWords = this.anagramIndex.get(this.getFrequenyKey(word)) || [];
         const result = similarWords.filter((w) => w !== word);
         this.wordCache.set(word, result);
         return result;
@@ -73,7 +72,7 @@ export class ServerController {
     
     calculateRequestTime(startTime: [number, number] = [0, 0], endTime: [number, number] = [0, 0]) {
         const elapsedTime = ((endTime[0] - startTime[0]) * 1e9) + (endTime[1] - startTime[1]);
-        this.requestTimes.push(elapsedTime)
+        this.totalTime += elapsedTime
     }
 
     getAverageProcessingTimeNs(): number {
@@ -82,7 +81,6 @@ export class ServerController {
          * the average is rounded down to the nearest integer
          */
         if (this.totalRequests === 0) return 0
-        const averageTimeNs = this.requestTimes.reduce((a, b) => a + b, 0) / this.totalRequests
-        return Math.floor(averageTimeNs)
+        return Math.floor(this.totalTime / this.totalRequests)
     }
 }
