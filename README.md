@@ -28,6 +28,18 @@
 - The `server.ts` file is used to manage the routing and the endpoints.
 - The `server-controller.ts` file is a class module that is used by the `server.ts`.
 
+# Endpoints
+
+#### GET
+ This endpoint is used to find similar words. Replace `[wordInput]` with the word you want to find similar words for.
+ ```
+ localhost:8000/similar?word=[wordInput]
+ ```
+### GET
+This endpoint is used to get statistics.
+- `localhost:8000/stats`
+
+
 # Solution Overview
 
 My solution is based on the idea that preloading and preprocessing the DB makes for faster results. It works as follows:
