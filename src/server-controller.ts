@@ -10,7 +10,7 @@ export class ServerController {
     anagramIndex: Map<string, string[]>;
     totalRequests: number = 0;
     totalWords: number;
-    totalTime:number = 0;
+    totalTime: number = 0;
     constructor(private dbFilePath: string) {
         this.dbFilePath = dbFilePath;
         this.createAnagramIndex();
@@ -24,18 +24,22 @@ export class ServerController {
          */
         this.wordCache = new Map<string, string[]>();
         this.anagramIndex = new Map<string, string[]>();
-        const dataBase: string[] = fs.readFileSync(this.dbFilePath, 'utf-8').split('\n');
-        const uniqueDataBase = [...new Set(dataBase)];
-        uniqueDataBase.forEach((word) => {
-            word = word.trim();
-            const key = this.getFrequenyKey(word)      // O(n)
-            // const key = this.getSortedWordKey(word)  // O(n log n)
-            if (!this.anagramIndex.has(key)) {
-                this.anagramIndex.set(key, []);
-            }
-            this.anagramIndex.get(key)?.push(word);
-        });
-        this.totalWords = dataBase.length;
+        try {
+            const dataBase: string[] = fs.readFileSync(this.dbFilePath, 'utf-8').split('\n');
+            const uniqueDataBase = [...new Set(dataBase)];
+            uniqueDataBase.forEach((word) => {
+                word = word.trim();
+                const key = this.getFrequenyKey(word); // O(n)
+                if (!this.anagramIndex.has(key)) {
+                    this.anagramIndex.set(key, []);
+                }
+                this.anagramIndex.get(key)?.push(word);
+            });
+            this.totalWords = dataBase.length;
+        } catch (error) {
+            console.error('An error occurred while reading the dictionary file:', error);
+            throw error
+        }
     }
 
     getSortedWordKey(word: string): string {
@@ -69,7 +73,7 @@ export class ServerController {
         this.wordCache.set(word, result);
         return result;
     }
-    
+
     calculateRequestTime(startTime: [number, number] = [0, 0], endTime: [number, number] = [0, 0]) {
         const elapsedTime = ((endTime[0] - startTime[0]) * 1e9) + (endTime[1] - startTime[1]);
         this.totalTime += elapsedTime
