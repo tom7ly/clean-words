@@ -37,7 +37,7 @@ export class ServerController {
             this.totalWords = dataBase.length;
         } catch (error) {
             console.error('An error occurred while reading the dictionary file:', error);
-            throw error;
+            // You may choose to throw a custom error or handle the error differently
         }
     }
 
