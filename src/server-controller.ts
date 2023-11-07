@@ -12,7 +12,6 @@ export class ServerController {
     totalWords: number;
     totalTime: number = 0;
     constructor(private dbFilePath: string) {
-        this.dbFilePath = dbFilePath;
         this.createAnagramIndex();
     }
 
