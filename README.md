@@ -3,8 +3,10 @@ Two words w_1 and w_2 are considered similar if w_1 is a letter permutation of w
 Implement a web service for printing similar words in the English language.
 The web service should listen on port 8000 and support the following two HTTP endpoints:
 
-
+### GET WORD
+```
 GET /api/v1/similar?word=stressed
+```
 Returns all words in the dictionary that have the same permutation as the word "stressed". The word in the query should not be returned.
 The result format is a JSON object as follows:
 ```
@@ -19,6 +21,7 @@ Example:
 http://localhost:8000/api/v1/similar?word=apple
 Returns: {"similar":["appel","pepla"]}
 ```
+### GET STATS
 ```
 GET /api/v1/stats
 ```
