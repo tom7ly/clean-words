@@ -14,41 +14,31 @@ The result format is a JSON object as follows:
 
 }
 ```
-
-For example:
+Example:
 ```
 http://localhost:8000/api/v1/similar?word=apple
-
-{"similar":["appel","pepla"]}
+Returns: {"similar":["appel","pepla"]}
 ```
-
+```
 GET /api/v1/stats
+```
 Return general statistics about the program:
 Total number of words in the dictionary
 Total number of requests (not including "stats" requests)
 Average time for request handling in nanoseconds (not including "stats" requests)
-
 The output is a JSON object structured as follows:
 ```
 {
-
     totalWords:int
-
     totalRequests:int
-
     avgProcessingTimeNs:int
-
 }
 ```
-
-For example:
+Example:
 ```
 http://localhost:8000/api/v1/stats
-
-{"totalWords":351075,"totalRequests":9,"avgProcessingTimeNs":45239}
-
+Returns: {"totalWords":351075,"totalRequests":9,"avgProcessingTimeNs":45239}
 ```
-
 
 # Installation Instructions
 
